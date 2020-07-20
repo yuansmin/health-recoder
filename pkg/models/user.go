@@ -34,7 +34,7 @@ func (u *InternalUser) ToSafeUser() User {
 }
 
 func ListUsers() ([]User, error) {
-	db, err := getGlobalDB()
+	db, err := getConnectedDB()
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func GetUser(user *User) error {
 	if user.ID == 0 {
 		return gorm.ErrorPrimaryKeyRequired
 	}
-	db, err := getGlobalDB()
+	db, err := getConnectedDB()
 	if err != nil {
 		return genConnectDBError(err)
 	}
@@ -60,7 +60,7 @@ func GetUser(user *User) error {
 }
 
 func CreateUser(user *User) error {
-	db, err := getGlobalDB()
+	db, err := getConnectedDB()
 	if err != nil {
 		return genConnectDBError(err)
 	}
@@ -75,7 +75,7 @@ func DeleteUser(user *User) error {
 	if user.ID == 0 {
 		return gorm.ErrorPrimaryKeyRequired
 	}
-	db, err := getGlobalDB()
+	db, err := getConnectedDB()
 	if err != nil {
 		return genConnectDBError(err)
 	}
