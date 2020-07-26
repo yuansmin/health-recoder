@@ -31,9 +31,10 @@ type BaseModel struct {
 	DeletedAt gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 }
 
-type Record struct {
-	UserID     uint   `json:"user_id"`
-	CategoryID uint16 `josn:"category_id"`
+type ListOptions struct {
+	StartedAt time.Time
+	EndedAt   time.Time
+	Limit     int
 }
 
 // return cached connected db, create if not exists

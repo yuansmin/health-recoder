@@ -3,13 +3,13 @@ package models
 import "time"
 
 type ExerciseRecord struct {
-	Record
+	BaseModel
 
-	Count     uint      `json:"count"`
-	StartedAt time.Time `json:"started_at"`
-	EndedAt   time.Time `json:"ended_at"`
-	UserID    uint      `json:"user_id"`
-	Category  `gorm:"foreignKey:ID" json:"category"`
+	StartedAt  time.Time `json:"started_at"`
+	EndedAt    time.Time `json:"ended_at"`
+	UserID     uint      `json:"user_id"`
+	Category   `gorm:"foreignKey:ID" json:"category"`
+	RecordList []Record `json:"record_list" gorm:"foreignKey:ID"`
 }
 
 func (r *ExerciseRecord) GetElapse() time.Duration {
