@@ -28,7 +28,7 @@ func (u *User) Create(c *gin.Context) {
 	// d, _ := c.GetRawData()
 	// log.Debugf("request body: %s", d)
 	if err := c.ShouldBind(&user); err != nil {
-		c.AbortWithStatusJSON(400, newApiError(InternalErr, err.Error()))
+		c.AbortWithStatusJSON(400, newApiError(BadRequestErr, err.Error()))
 		return
 	}
 	if err := models.CreateUser(&user); err != nil {

@@ -10,7 +10,7 @@ func CreateHealthRecord(record *HealthRecord) error {
 	return nil
 }
 
-func ListUserHealthRecord(user *User, opt ...*ListOptions) ([]HealthRecord, error) {
+func ListUserHealthRecord(user *User, opt ...ListOptions) ([]HealthRecord, error) {
 	// todo: implement
 	return nil, nil
 }
