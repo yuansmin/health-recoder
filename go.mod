@@ -1,6 +1,6 @@
 module github.com/yuansmin/health-recoder
 
-go 1.14
+go 1.16
 
 require (
 	github.com/gin-gonic/gin v1.6.3
