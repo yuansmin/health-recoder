@@ -64,6 +64,7 @@ func AutoMigrate() error {
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Category{})
 	db.AutoMigrate(&ExerciseRecord{})
+	db.AutoMigrate(&RecordGroup{})
 
 	// todo
 	return nil

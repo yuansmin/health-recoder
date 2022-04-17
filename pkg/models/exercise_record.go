@@ -9,11 +9,21 @@ import (
 type ExerciseRecord struct {
 	BaseModel
 
-	StartedAt  time.Time `json:"started_at"`
-	EndedAt    time.Time `json:"ended_at"`
-	UserID     uint      `json:"user_id"`
-	Category   `gorm:"foreignKey:ID" json:"category"`
-	RecordList []Record `json:"record_list" gorm:"foreignKey:ID"`
+	StartedAt time.Time `json:"started_at"`
+	EndedAt   time.Time `json:"ended_at"`
+	UserID    uint      `json:"user_id"`
+	Category  `gorm:"foreignKey:" json:"category"`
+	// all groups count
+	Count uint `json:"count"`
+}
+
+type RecordGroup struct {
+	BaseModel
+
+	RecordID  uint      `json:"recordID"`
+	StartedAt time.Time `json:"startedAt"`
+	EndedAt   time.Time `json:"endedAt"`
+	Count     uint      `json:"count"`
 }
 
 func (r *ExerciseRecord) IsPrimaryKeySet() bool {

@@ -21,6 +21,10 @@ func init() {
 type User struct {
 	BaseModel
 	Name string `binding:"required"`
+	// for third platform user id
+	OpenID string
+	Email  string
+	Tel    string
 }
 
 type InternalUser struct {

@@ -11,8 +11,8 @@ const (
 
 type Category struct {
 	BaseModel
-	Type        CategoryType `json:"type"`
-	Description string       `json:"description"`
+	Name        string `json:"type"`
+	Description string `json:"description"`
 }
 
 func ListCategories(categoryType CategoryType) ([]Category, error) {
