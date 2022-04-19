@@ -20,9 +20,9 @@ type ExerciseRecord struct {
 type RecordGroup struct {
 	BaseModel
 
-	RecordID  uint      `json:"recordID"`
-	StartedAt time.Time `json:"startedAt"`
-	EndedAt   time.Time `json:"endedAt"`
+	RecordID  uint      `json:"record_id"`
+	StartedAt time.Time `json:"started_at"`
+	EndedAt   time.Time `json:"ended_at"`
 	Count     uint      `json:"count"`
 }
 
@@ -67,20 +67,6 @@ func GetExerciseRecord(r *ExerciseRecord) error {
 func AppendRecordToExercise(r *Record, exercise *ExerciseRecord) error {
 	// todo: implement
 	return nil
-}
-
-func ListUserExerciseRecord(user *User, opts ...ListOptions) ([]ExerciseRecord, error) {
-	// todo use ListOptions filter result
-	db, err := getConnectedDB()
-	if err != nil {
-		return nil, err
-	}
-
-	var recordList []ExerciseRecord
-	if err = db.Where("user_id=?", user.ID).Find(&recordList).Error; err != nil {
-		return nil, err
-	}
-	return recordList, nil
 }
 
 func DeleteExerciseRecord(record *ExerciseRecord) error {

@@ -15,7 +15,7 @@ func (u *User) List(c *gin.Context) {
 	users, err := models.ListUsers()
 	if err != nil {
 		// 500
-		c.JSON(500, newApiError(InternalErr, err.Error()))
+		c.JSON(500, newApiError(CodeInternalErr, err.Error()))
 		return
 	}
 
@@ -28,11 +28,11 @@ func (u *User) Create(c *gin.Context) {
 	// d, _ := c.GetRawData()
 	// log.Debugf("request body: %s", d)
 	if err := c.ShouldBind(&user); err != nil {
-		c.AbortWithStatusJSON(400, newApiError(BadRequestErr, err.Error()))
+		c.AbortWithStatusJSON(400, newApiError(CodeBadRequestErr, err.Error()))
 		return
 	}
 	if err := models.CreateUser(&user); err != nil {
-		c.AbortWithStatusJSON(500, newApiError(InternalErr, err.Error()))
+		c.AbortWithStatusJSON(500, newApiError(CodeInternalErr, err.Error()))
 		return
 	}
 
@@ -42,14 +42,14 @@ func (u *User) Get(c *gin.Context) {
 	idRaw := c.Param("id")
 	id, err := strconv.ParseUint(idRaw, 10, 32)
 	if err != nil {
-		c.AbortWithStatusJSON(400, newApiError(BadRequestErr, fmt.Sprintf("bad user id: %s", idRaw)))
+		c.AbortWithStatusJSON(400, newApiError(CodeBadRequestErr, fmt.Sprintf("bad user id: %s", idRaw)))
 		return
 	}
 	user := models.User{}
 	user.ID = uint(id)
 	// todo: handle 404 error
 	if err := models.GetUser(&user); err != nil {
-		c.JSON(500, newApiError(InternalErr, err.Error()))
+		c.JSON(500, newApiError(CodeInternalErr, err.Error()))
 		return
 	}
 
@@ -60,14 +60,14 @@ func (u *User) Delete(c *gin.Context) {
 	idRaw := c.Param("id")
 	id, err := strconv.ParseUint(idRaw, 10, 32)
 	if err != nil {
-		c.AbortWithStatusJSON(400, newApiError(BadRequestErr, fmt.Sprintf("bad user id: %s", idRaw)))
+		c.AbortWithStatusJSON(400, newApiError(CodeBadRequestErr, fmt.Sprintf("bad user id: %s", idRaw)))
 		return
 	}
 
 	user := models.User{}
 	user.ID = uint(id)
 	if err := models.DeleteUser(&user); err != nil {
-		c.AbortWithStatusJSON(500, newApiError(InternalErr, err.Error()))
+		c.AbortWithStatusJSON(500, newApiError(CodeInternalErr, err.Error()))
 		return
 	}
 
