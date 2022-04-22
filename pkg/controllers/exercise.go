@@ -5,37 +5,34 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/yuansmin/health-recoder/pkg/dao"
-
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 
+	"github.com/yuansmin/health-recoder/pkg/apis"
+	"github.com/yuansmin/health-recoder/pkg/dao"
 	"github.com/yuansmin/health-recoder/pkg/models"
 )
 
 type exercise struct {
-	dao dao.Dao
+	dao *dao.Dao
 }
 
-func NewExercise(dao dao.Dao) *exercise {
+func NewExercise(dao *dao.Dao) *exercise {
 	return &exercise{dao: dao}
-}
-
-type ListExerciseRecordRequest struct {
-	Offset int `json:"offset" binding:"-"`
-	Limit  int `json:"limit" binding:"-"`
 }
 
 func (c *exercise) List(ctx *gin.Context) {
 	// todo: authorize user
-	var req ListExerciseRecordRequest
+	var req apis.ListExerciseRecordRequest
 	var err error
 	if err = ctx.ShouldBind(&req); err != nil {
 		ctx.JSON(400, newApiError(CodeBadRequestErr, err.Error()))
 		return
 	}
+	log.Printf("req: %v", req)
 
-	if err = checkPageParameter(req.Offset, req.Limit); err != nil {
-		ctx.JSON(400, err)
+	if aErr := checkPageParameter(req.Offset, req.Limit); aErr != nil {
+		ctx.JSON(400, aErr)
 		return
 	}
 
@@ -46,7 +43,14 @@ func (c *exercise) List(ctx *gin.Context) {
 	}
 
 	// write data and return
-	ctx.JSON(200, erList)
+	if erList == nil {
+		erList = make([]*models.ExerciseRecord, 0)
+	}
+	resp := &apis.ListExerciseRecordResponse{
+		Total: len(erList),
+		Items: erList,
+	}
+	ctx.JSON(200, resp)
 }
 
 func (c *exercise) Create(ctx *gin.Context) {

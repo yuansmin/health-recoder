@@ -20,9 +20,10 @@ func New(dao *dao.Dao) *gin.Engine {
 	router.DELETE("/api/users/:id", userController.Delete)
 
 	exerciseController := controllers.NewExercise(dao)
-	router.GET("/api/exercise", exerciseController.List)
-	router.POST("/api/exercise", exerciseController.Create)
-	router.GET("/api/exercise/:id", exerciseController.Get)
+	// todo: record?
+	router.GET("/api/exercises", exerciseController.List)
+	router.POST("/api/exercises", exerciseController.Create)
+	router.GET("/api/exercises/:id", exerciseController.Get)
 
 	return router
 }

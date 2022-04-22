@@ -3,10 +3,18 @@ package tests
 
 import (
 	"fmt"
+	"math/rand"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/yuansmin/health-recoder/pkg/models"
+
+	dao2 "github.com/yuansmin/health-recoder/pkg/dao"
+	"github.com/yuansmin/health-recoder/pkg/router"
+
+	"github.com/gin-gonic/gin"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -32,4 +40,31 @@ func init() {
 // path: eg: /v1/users
 func genURL(path string) string {
 	return fmt.Sprintf("%s%s", endpoint, path)
+}
+
+func setupRouter() (r *gin.Engine, dao *dao2.Dao, clean func()) {
+	rand.Seed(time.Now().Unix())
+
+	seed := rand.Int()
+	dbFile := fmt.Sprintf("/tmp/test-db-%d", seed)
+	f, err := os.Create(dbFile)
+	if err != nil {
+		log.Fatalf("init db file err: %s", err)
+	}
+	f.Close()
+
+	if err = models.AutoMigrate(dbFile); err != nil {
+		log.Fatalf("AutoMigrate err: %s", err)
+	}
+
+	dao, err = dao2.New(dbFile)
+	if err != nil {
+		log.Fatalf("new dao err: %s", err)
+	}
+	clean = func() {
+		os.RemoveAll(dbFile)
+	}
+
+	r = router.New(dao)
+	return r, dao, clean
 }

@@ -11,24 +11,24 @@ import (
 
 var db *gorm.DB
 
-func init() {
-	var err error
-	_, err = getConnectedDB()
-	if err != nil {
-		panic(fmt.Errorf("connect to db err: %s", err))
-	}
-
-	err = AutoMigrate()
-	if err != nil {
-		panic(fmt.Errorf("migrate models table err: %s", err))
-	}
-}
+//func init() {
+//	var err error
+//	_, err = getConnectedDB()
+//	if err != nil {
+//		panic(fmt.Errorf("connect to db err: %s", err))
+//	}
+//
+//	err = AutoMigrate()
+//	if err != nil {
+//		panic(fmt.Errorf("migrate models table err: %s", err))
+//	}
+//}
 
 type BaseModel struct {
 	ID        uint           `json:"id" gorm:"primarykey"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `json:"deleted_at" gorm:"index"`
+	DeletedAt gorm.DeletedAt `json:"deleted_at,omitempty" gorm:"index"`
 }
 
 type ListOptions struct {
@@ -54,8 +54,8 @@ func genConnectDBError(err error) error {
 
 }
 
-func AutoMigrate() error {
-	db, err := getConnectedDB()
+func AutoMigrate(url string) error {
+	db, err := gorm.Open(sqlite.Open(url), nil)
 	if err != nil {
 		return err
 	}

@@ -9,7 +9,7 @@ import (
 func New(url string) (*Dao, error) {
 	var db *gorm.DB
 	var err error
-	if db, err = gorm.Open(sqlite.Open("/Users/fancy/go/src/github.com/yuansmin/health-recoder/data.db"), nil); err != nil {
+	if db, err = gorm.Open(sqlite.Open(url), nil); err != nil {
 		return nil, err
 	}
 

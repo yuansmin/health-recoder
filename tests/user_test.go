@@ -84,5 +84,4 @@ func TestCreateGetDeleteUser(t *testing.T) {
 
 	data, _ = ioutil.ReadAll(resp.Body)
 	assert.NotEqual(t, 200, resp.StatusCode, string(data))
-
 }

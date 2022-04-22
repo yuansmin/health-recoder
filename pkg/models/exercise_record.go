@@ -9,10 +9,11 @@ import (
 type ExerciseRecord struct {
 	BaseModel
 
-	StartedAt time.Time `json:"started_at"`
-	EndedAt   time.Time `json:"ended_at"`
-	UserID    uint      `json:"user_id"`
-	Category  `gorm:"foreignKey:" json:"category"`
+	StartedAt   time.Time `json:"started_at"`
+	EndedAt     time.Time `json:"ended_at"`
+	UserID      uint      `json:"user_id"`
+	Category    `gorm:"foreignKey:" json:"category"`
+	Description string `json:"description"`
 	// all groups count
 	Count uint `json:"count"`
 }
