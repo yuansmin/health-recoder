@@ -26,7 +26,7 @@ func (e *exerciseRecord) List(userID uint, offset, limit int) ([]*models.Exercis
 func (e *exerciseRecord) Get(id uint, userID uint) (*models.ExerciseRecord, error) {
 	var er models.ExerciseRecord
 	err := e.db.Where(&models.ExerciseRecord{BaseModel: models.BaseModel{ID: id}, UserID: userID}).
-		Find(&er).Error
+		Take(&er).Error
 	if err != nil {
 		return nil, err
 	}

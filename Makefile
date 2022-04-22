@@ -1,6 +1,6 @@
 run:
 	# GIN_MODE=release
-	GIN_MODE=debug go run -mod=vendor cmd/main.go
+	GIN_MODE=debug go run cmd/main.go
 build:
 	go build -mod=vendor -o bins/app cmd/main.go
 

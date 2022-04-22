@@ -81,10 +81,16 @@ func (c *exercise) Get(ctx *gin.Context) {
 	}
 
 	var er *models.ExerciseRecord
-	if er, err = c.dao.ExerciseRecord().Get(0, uint(id)); err != nil {
-		ctx.AbortWithStatusJSON(500, newApiError(CodeInternalErr, err.Error()))
+	if er, err = c.dao.ExerciseRecord().Get(uint(id), 1); err != nil {
+		if isNotFound(err) {
+			ctx.JSON(404, newApiError(CodeNotFoundErr, ""))
+			return
+		}
+
+		ctx.JSON(500, newApiError(CodeInternalErr, err.Error()))
 		return
 	}
+	fmt.Printf("%v \n", er)
 
 	ctx.JSON(200, er)
 }

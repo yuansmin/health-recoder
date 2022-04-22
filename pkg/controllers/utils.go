@@ -1,6 +1,11 @@
 package controllers
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+
+	"gorm.io/gorm"
+)
 
 const (
 	defaultLimit = 10
@@ -10,6 +15,7 @@ const (
 var (
 	CodeBadRequestErr = "BadRequest"
 	CodeInternalErr   = "InternalErr"
+	CodeNotFoundErr   = "NotFound"
 )
 
 type ApiError struct {
@@ -26,6 +32,10 @@ func newApiError(code, message string) ApiError {
 		Code:    code,
 		Message: message,
 	}
+}
+
+func isNotFound(err error) bool {
+	return errors.Is(err, gorm.ErrRecordNotFound)
 }
 
 func checkPageParameter(offset, limit int) *ApiError {

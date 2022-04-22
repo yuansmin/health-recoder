@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	dbURL = flag.String("db", "", "db url, eg: /Users/fancy/go/src/github.com/yuansmin/health-recoder/data.db")
+	dbURL = flag.String("db", "./data.db", "db url, eg: /Users/fancy/go/src/github.com/yuansmin/health-recoder/data.db")
 )
 
 func main() {
